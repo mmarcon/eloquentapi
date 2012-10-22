@@ -1,0 +1,22 @@
+{
+  "name": "eloquentapi",
+  "version": "0.1.0",
+  "description": "Helps to build self-documenting APIs with Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mmarcon/eloquentapi.git"
+  },
+  "keywords": [
+    "API",
+    "routes",
+    "rest",
+    "controller",
+    "documentation"
+  ],
+  "author": "Massimiliano Marcon (@mmarcon)",
+  "license": "Apache"
+}
