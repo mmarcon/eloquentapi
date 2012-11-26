@@ -5,8 +5,8 @@ var registry = eloquent.EndpointRegistry.createRegistry('myexampleserver');
 
 var controllerObject = {};
 controllerObject.name = 'mycontroller';
-controllerObject.route = '/';
-controllerObject.method = 'get';
+controllerObject.route = '/mycontroller';
+controllerObject.methods = ['get'];
 controllerObject.description = 'says hello world';
 controllerObject.parameters = {
     message: {
@@ -22,8 +22,30 @@ controllerObject.handler = function(req, res){
 
 var controller = eloquent.Controller.makeController(controllerObject);
 
-registry.registerController(controller);
+var myOtherControllerObject = {};
+myOtherControllerObject.name = 'myothercontroller';
+myOtherControllerObject.route = '/myothercontroller';
+myOtherControllerObject.methods = ['get', 'post'];
+myOtherControllerObject.description = 'says you are awesome several times';
+myOtherControllerObject.parameters = {
+    repetitions: {
+        type: 'integer',
+        required: true,
+        description: 'Number of repetitions'
+    }
+};
+myOtherControllerObject.handler = function(req, res){
+    var repetitions = req.query.repetitions;
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end(Array(repetitions + 1).join(' you are awesome '));
+};
 
+var myOtherController = eloquent.Controller.makeController(myOtherControllerObject);
+
+registry.registerController(controller);
+registry.registerController(myOtherController);
+
+eloquent.APIDescriber.use(eloquent.SwaggerDescriber);
 eloquent.APIDescriber.describe(registry);
 
 var server = http.createServer(function (req, res) {
