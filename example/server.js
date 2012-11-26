@@ -3,20 +3,24 @@ eloquent = require('..');
 
 var registry = eloquent.EndpointRegistry.createRegistry('myexampleserver');
 
-var controller = new eloquent.Controller('mycontroller', '/', 'get', 'says hello world');
-
-controller.expect({
+var controllerObject = {};
+controllerObject.name = 'mycontroller';
+controllerObject.route = '/';
+controllerObject.method = 'get';
+controllerObject.description = 'says hello world';
+controllerObject.parameters = {
     message: {
         type: 'string',
         required: true,
         description: 'A message from the client'
     }
-});
-
-controller.handler(function(req, res){
+};
+controllerObject.handler = function(req, res){
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('hello world');
-});
+};
+
+var controller = eloquent.Controller.makeController(controllerObject);
 
 registry.registerController(controller);
 
