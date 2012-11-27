@@ -8,6 +8,7 @@ controllerObject.name = 'mycontroller';
 controllerObject.route = '/mycontroller';
 controllerObject.methods = ['get'];
 controllerObject.description = 'says hello world';
+controllerObject.notes = 'Just a single controller that does nothing with the parameters and returns "hello world"';
 controllerObject.parameters = {
     message: {
         type: 'string',
