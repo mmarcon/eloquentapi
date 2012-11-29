@@ -5,7 +5,7 @@ var registry = eloquent.EndpointRegistry.createRegistry('myexampleserver');
 
 var controllerObject = {};
 controllerObject.name = 'mycontroller';
-controllerObject.route = '/mycontroller';
+controllerObject.route = '/mycontroller/(.+)/?(.+)?';
 controllerObject.methods = ['get'];
 controllerObject.description = 'says hello world';
 controllerObject.notes = 'Just a single controller that does nothing with the parameters and returns "hello world"';
@@ -14,11 +14,25 @@ controllerObject.parameters = {
         type: 'string',
         required: true,
         description: 'A message from the client'
+    },
+    bear: {
+        ptype: 'path',
+        position: 0,
+        type: 'integer',
+        required: true,
+        description: 'A bear in the URL!'
+    },
+    monkey: {
+        ptype: 'path',
+        position: 1,
+        type: 'string',
+        required: false,
+        description: 'A monkey in the URL!'
     }
 };
 controllerObject.handler = function(req, res){
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('hello world');
+    res.end('hello world (' + req.parameters.bear + ')');
 };
 
 var controller = eloquent.Controller.makeController(controllerObject);
@@ -36,7 +50,7 @@ myOtherControllerObject.parameters = {
     }
 };
 myOtherControllerObject.handler = function(req, res){
-    var repetitions = req.query.repetitions;
+    var repetitions = req.parameters.repetitions;
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end(Array(repetitions + 1).join(' you are awesome '));
 };
